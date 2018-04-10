@@ -2,6 +2,33 @@ body{
     background-color: black;
 }
 
+p{
+    color: white;
+}
+
+#disorder{
+    border-radius: 100px;
+}
+
 #white{
     color: white;
+}
+
+#homepage{
+ position: relative;
+ top: 100px;
+ height: 300px;
+}
+
+#typeofdisorder{
+ border-radius: 10px;
+ text-align: center;
+}
+
+.selectbar{
+    width: 100%;
+    text-align: center;
+}
+.white{
+    color:white;
 }
