@@ -29,6 +29,17 @@ p{
     width: 100%;
     text-align: center;
 }
+
+
 .white{
     color:white;
+}
+
+#content{
+    width:100%;
+    position: relative;
+    overflow-y: auto;
+    color: white;
+    top: 100px;
+    height: 50%;
 }
