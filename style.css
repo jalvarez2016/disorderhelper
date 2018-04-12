@@ -26,14 +26,13 @@ p{
 }
 
 .selectbar{
-    width: 100%;
-    text-align: center;
+    float: left;
+    position: relative;
+    
 }
 
 
-.white{
-    color:white;
-}
+
 
 #content{
     width:100%;

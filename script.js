@@ -99,6 +99,9 @@ function printmovies(response){
 }
 
 $(document).ready(function(){
+    
+    $("#name").html("<h1 style='text-align: center; color: white'>"+ localStorage.getItem("disorder") +"</h1><hr style='border-color: #ffffff' border-width='10px'>");
+    
     var listofDisorders=[];
     for(var i=0; i<disorders.length;i++){
         listofDisorders.push("<option value='"+disorders[i]+"'>");
@@ -138,7 +141,7 @@ $(document).ready(function(){
    //api(localStorage.getItem("disorder"));
    
 function books(searchTerm) {
-    alert(searchTerm);
+    
   
   var newUrl= "https://www.googleapis.com/books/v1/volumes?q="+ searchTerm;
     $.ajax({
@@ -158,7 +161,7 @@ function books(searchTerm) {
 function music(searchTerm){
     alert(searchTerm);
   
-  var newUrl= "https://musicbrainz.org/search?query="+ searchTerm +"";
+  var newUrl= "https://api.spotify.com/v1/albums?ids={"+ searchTerm + "}";
     $.ajax({
       url: newUrl,
       method: "GET",
@@ -220,4 +223,6 @@ function movies(searchTerm){
 
 //api keys required
 
+// news api http://eventregistry.org/ *requires python
 
+// music api https://api.spotify.com
