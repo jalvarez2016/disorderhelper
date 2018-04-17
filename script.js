@@ -161,7 +161,7 @@ function books(searchTerm) {
 function music(searchTerm){
     alert(searchTerm);
   
-  var newUrl= "https://api.spotify.com/v1/albums?ids={"+ searchTerm + "}";
+  var newUrl= "https://api.spotify.com";
     $.ajax({
       url: newUrl,
       method: "GET",
