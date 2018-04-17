@@ -31,7 +31,10 @@ p{
     
 }
 
-
+h1
+{
+  font-family: 'Berkshire Swash', cursive;  
+}
 
 
 #content{
@@ -41,4 +44,9 @@ p{
     color: white;
     top: 100px;
     height: 50%;
+    text-align:center;
+}
+
+.click {
+    cursor: pointer;
 }

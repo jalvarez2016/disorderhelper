@@ -48,9 +48,11 @@ function check(){
 
 function printbooks(response){
     $("#content").html("");
-    
+
     for( var i =0 ; i<response.items.length;i++){
-        if(response.items[i].volumeInfo.subtitle === undefined){
+        if(response.items[i].volumeInfo.subtitle === undefined ){
+            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div></a><center><img src='http://i.imgur.com/pej470t.png'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+        } else if(response.items[i].volumeInfo.subtitle === undefined) {
             $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
         } else {
             $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div><div class='col-md-12'><center><p>"+ response.items[i].volumeInfo.subtitle +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
@@ -63,10 +65,11 @@ function printmusic(response){
     $("#content").html("");
     
     for( var i =0 ; i<response.length;i++){
-        if(response.something === undefined){
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br>");
+        
+        if(response[i].artwork_url === null){
+            $("#content").append("<div id='i class='col-md-12'><a href='"+ response[i].permalink_url +"'><div class='col-12-md'><center><p>"+ response[i].title +"</p></center></div></a><center><img src=' http://i.imgur.com/pej470t.png '></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
         } else {
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div><div class='col-md-12'><center><p>"+ response.items[i].volumeInfo.subtitle +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br>");
+            $("#content").append("<div id='i class='col-md-12'><a href='"+ response[i].permalink_url +"'><div class='col-12-md'><center><p>"+ response[i].title +"</p></center></div></a><center><img src='"+ response[i].artwork_url +"'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
         }
         
     }
@@ -87,16 +90,21 @@ function printarticles(response){
 
 function printmovies(response){
     $("#content").html("");
-    
-    for( var i =0 ; i<response.length;i++){
-        if(response.something === undefined){
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br>");
-        } else {
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div><div class='col-md-12'><center><p>"+ response.items[i].volumeInfo.subtitle +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br>");
+    if (response.Response === "False"){
+        console.log("nothing");
+        $("#content").html("Nothing Found");
+    } else {
+        for( var i =0 ; i<response.Search.length;i++){
+            if(response.Search[i].Poster === "N/A"){
+                $("#content").append("<div id='i class='col-md-12'><div class='col-12-md'><center><p>"+ response.Search[i].Title +"</p></center></div><center><img src='http://i.imgur.com/pej470t.png'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+            } else {
+                $("#content").append("<div id='i class='col-md-12'><div class='col-12-md'><center><p>"+ response.Search[i].Title +"</p></center></div><center><img src='"+ response.Search[i].Poster +"'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+            }
+            
         }
-        
-    }
 }
+    }
+    
 
 $(document).ready(function(){
     
@@ -161,14 +169,13 @@ function books(searchTerm) {
 function music(searchTerm){
     alert(searchTerm);
   
-  var newUrl= "https://api.spotify.com";
+  var newUrl= "https://api.soundcloud.com/tracks?q="+ searchTerm +"&client_id=5aa8e389ba4e24b6106af5159ab3e344";
     $.ajax({
       url: newUrl,
       method: "GET",
       success: function(response) {
         console.log(response);
         printmusic(response);
-        console.log(response.items.length);
         
           
       },
@@ -194,16 +201,16 @@ function articles(searchTerm){
 
 function movies(searchTerm){
     alert(searchTerm);
-  debugger
-  var newUrl= "http://www.omdbapi.com/?t="+ searchTerm ;
+  
+  var newUrl= "https://www.omdbapi.com/?apikey=90d4b10a&s="+ searchTerm;
     $.ajax({
       url: newUrl,
       method: "GET",
       success: function(response) {
-          debugger
+          
         console.log(response);
+        console.log(response.Search);
         printmovies(response);
-        console.log(response.items.length);
         
           
       },
