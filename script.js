@@ -78,12 +78,9 @@ function printmusic(response){
 function printarticles(response){
     $("#content").html("");
     
-    for( var i =0 ; i<response.length;i++){
-        if(response.something === undefined){
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br>");
-        } else {
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div><div class='col-md-12'><center><p>"+ response.items[i].volumeInfo.subtitle +"</p></center></div></a><center><img src='"+ response.items[i].volumeInfo.imageLinks.thumbnail +"'></center></div><br>");
-        }
+    for( var i =0 ; i<response.response.docs.length;i++){
+        $("#content").append("<div id='i class='col-md-12'><a href='"+ response.response.docs[i].web_url+"'><div class='col-12-md'><center><p>"+ response.response.docs[i].headline.main +"</p></center></div><center><p>"+ response.response.docs[i].snippet +"</p></a></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+        
         
     }
 }
@@ -108,7 +105,7 @@ function printmovies(response){
 
 $(document).ready(function(){
     
-    $("#name").html("<h1 style='text-align: center; color: white'>"+ localStorage.getItem("disorder") +"</h1><hr style='border-color: #ffffff' border-width='10px'>");
+    $("#name").append("<h1 style='text-align: center; color: white'>"+ localStorage.getItem("disorder") +"</h1><hr style='border-color: #ffffff' border-width='10px'>");
     
     var listofDisorders=[];
     for(var i=0; i<disorders.length;i++){
@@ -185,18 +182,34 @@ function music(searchTerm){
 function articles(searchTerm){
     alert(searchTerm);
   
-  var newUrl= "#"+ searchTerm;
-    $.ajax({
-      url: newUrl,
-      method: "GET",
-      success: function(response) {
-        console.log(response);
-        printarticles(response);
-        console.log(response.items.length);
+ // var newUrl= "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ $.param({'api-key': '5160881673d745a0bf14c0cd4cf34546','q': "+ searchTerm +"});
+  //  $.ajax({
+    //  url: newUrl,
+      //method: "GET",
+      //success: function(response) {
+      //  console.log(response);
+      //  printarticles(response);
         
           
-      },
-    });
+//      },
+//    });
+
+    // Built by LucyBot. www.lucybot.com
+var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+url += '?' + $.param({
+  'api-key': "5160881673d745a0bf14c0cd4cf34546",
+  'q': searchTerm
+});
+$.ajax({
+  url: url,
+  method: 'GET',
+}).done(function(response) {
+  console.log(response);
+  console.log(response.response.docs);
+  printarticles(response);
+}).fail(function(err) {
+  throw err;
+});
 }
 
 function movies(searchTerm){
