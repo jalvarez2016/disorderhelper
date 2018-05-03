@@ -1,9 +1,20 @@
-body{
-    background-color: black;
-}
-
 p{
     color: white;
+    background-color: black;
+    border-radius: 10px;
+    width:500px;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+}
+
+#happy{
+    height:300px;
+    top:100px;
+}
+
+p:hover {
+    background-color: white; 
+    color: black;
 }
 
 #disorder{
@@ -49,4 +60,27 @@ h1
 
 .click {
     cursor: pointer;
+}
+
+#selecter{
+    position: absolute;
+    left:48%;
+    margin-left: 0px;
+}
+
+#round{
+    border-radius: 100px;
+}
+
+body{
+    background-image: url(https://www.dafont.com/img/illustration/s/o/something.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+#name{
+    height: 100px;
+    background-color: #116bf4;
+    border-radius: 10px;
 }

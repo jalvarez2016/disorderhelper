@@ -47,8 +47,7 @@ function check(){
 }
 
 function printbooks(response){
-    $("#content").html("");
-
+    $("#content").html("<h2 id='subject'>Books</h2>");
     for( var i =0 ; i<response.items.length;i++){
         if(response.items[i].volumeInfo.subtitle === undefined ){
             $("#content").append("<div id='i class='col-md-12'><a href='"+ response.items[i].volumeInfo.previewLink +"'><div class='col-12-md'><center><p>"+ response.items[i].volumeInfo.title +"</p></center></div></a><center><img src='http://i.imgur.com/pej470t.png'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
@@ -62,21 +61,26 @@ function printbooks(response){
 }
 
 function printmusic(response){
-    $("#content").html("");
+    $("#content").html("<h2 id='subject'>Music</h2>");
     
-    for( var i =0 ; i<response.length;i++){
-        
-        if(response[i].artwork_url === null){
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response[i].permalink_url +"'><div class='col-12-md'><center><p>"+ response[i].title +"</p></center></div></a><center><img src=' http://i.imgur.com/pej470t.png '></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
-        } else {
-            $("#content").append("<div id='i class='col-md-12'><a href='"+ response[i].permalink_url +"'><div class='col-12-md'><center><p>"+ response[i].title +"</p></center></div></a><center><img src='"+ response[i].artwork_url +"'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+    if(response.length === 0){
+        $("#content").append("Nothing found");
+    } else {
+        for( var i =0 ; i<response.length;i++){
+            if(response[i].artwork_url === null){
+                $("#content").append("<div id='i class='col-md-12'><a href='"+ response[i].permalink_url +"'><div class='col-12-md'><center><p>"+ response[i].title +"</p></center></div></a><center><img src=' http://i.imgur.com/pej470t.png '></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+            } else {
+                $("#content").append("<div id='i class='col-md-12'><a href='"+ response[i].permalink_url +"'><div class='col-12-md'><center><p>"+ response[i].title +"</p></center></div></a><center><img src='"+ response[i].artwork_url +"'></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
+            }
+            
         }
-        
     }
+        
+    
 }
 
 function printarticles(response){
-    $("#content").html("");
+    $("#content").html("<h2 id='subject'>Articles</h2>");
     
     for( var i =0 ; i<response.response.docs.length;i++){
         $("#content").append("<div id='i class='col-md-12'><a href='"+ response.response.docs[i].web_url+"'><div class='col-12-md'><center><p>"+ response.response.docs[i].headline.main +"</p></center></div><center><p>"+ response.response.docs[i].snippet +"</p></a></center></div><br><hr style='border-color: #ffffff' border-width='10px'>");
@@ -86,10 +90,10 @@ function printarticles(response){
 }
 
 function printmovies(response){
-    $("#content").html("");
+    $("#content").html("<h2 id='subject'>Movies</h2>");
     if (response.Response === "False"){
         console.log("nothing");
-        $("#content").html("Nothing Found");
+        $("#content").append("Nothing Found");
     } else {
         for( var i =0 ; i<response.Search.length;i++){
             if(response.Search[i].Poster === "N/A"){
@@ -105,7 +109,23 @@ function printmovies(response){
 
 $(document).ready(function(){
     
-    $("#name").append("<h1 style='text-align: center; color: white'>"+ localStorage.getItem("disorder") +"</h1><hr style='border-color: #ffffff' border-width='10px'>");
+ // function getRandomColor(){
+   //   var letters = '0123456789ABCDEF';
+     // var color = '#';
+      //for (var i = 0; i < 6; i++) {
+       // color += letters[Math.floor(Math.random() * 16)];
+     // }
+    //  return color;
+ // }  
+  
+
+
+
+
+ // $("body").css("background-color", getRandomColor());
+
+    
+    $("#here").append(localStorage.getItem("disorder"));
     
     var listofDisorders=[];
     for(var i=0; i<disorders.length;i++){
@@ -163,9 +183,23 @@ function books(searchTerm) {
     
 }
 
+    $("#round").click(function(){
+       confetti(); 
+    });
+    //confetti is misspelt on purpose
+    function confetti(){
+        
+        $("body").css("background-image","url('https://media.giphy.com/media/fxwpwPOhNknT2/giphy.gif'), url('https://www.dafont.com/img/illustration/s/o/something.jpg')");
+        setInterval(function(){ 
+            $("body").css("background-image","url(https://www.dafont.com/img/illustration/s/o/something.jpg)");
+            console.log("hi");
+        }, 4000);
+    }
+    
+    
+    
+//https://media.giphy.com/media/fxwpwPOhNknT2/giphy.gif
 function music(searchTerm){
-    alert(searchTerm);
-  
   var newUrl= "https://api.soundcloud.com/tracks?q="+ searchTerm +"&client_id=5aa8e389ba4e24b6106af5159ab3e344";
     $.ajax({
       url: newUrl,
@@ -180,8 +214,7 @@ function music(searchTerm){
 }
 
 function articles(searchTerm){
-    alert(searchTerm);
-  
+
  // var newUrl= "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+ $.param({'api-key': '5160881673d745a0bf14c0cd4cf34546','q': "+ searchTerm +"});
   //  $.ajax({
     //  url: newUrl,
@@ -213,7 +246,6 @@ $.ajax({
 }
 
 function movies(searchTerm){
-    alert(searchTerm);
   
   var newUrl= "https://www.omdbapi.com/?apikey=90d4b10a&s="+ searchTerm;
     $.ajax({
@@ -246,3 +278,4 @@ function movies(searchTerm){
 // news api http://eventregistry.org/ *requires python
 
 // music api https://api.spotify.com
+
