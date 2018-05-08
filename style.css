@@ -9,6 +9,7 @@ p{
 
 #happy{
     height:300px;
+    width:400px;
     top:100px;
 }
 
@@ -83,4 +84,13 @@ body{
     height: 100px;
     background-color: #116bf4;
     border-radius: 10px;
+}
+
+#game{
+    background-color: white;
+}
+
+/*#minigame
+{
+    text-align: center;
 }
