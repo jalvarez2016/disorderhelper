@@ -108,8 +108,108 @@ function printmovies(response){
     
 
 $(document).ready(function(){
-    fall();
-    $("#minigame").click(function(){
+ 
+    var  update = setInterval(function(){ click();$("#set").click(function() {setGame();});},1000);
+    var speed = 1;
+    $("#happy").click(function() {
+        setGame();
+    });
+    
+    function game(){
+        $("#game").append("<div id='line'></div>");
+        $("#game").append("<div id='score'>0</div>");
+        $("#score").css("position","absolute");
+        $("#score").css("top","10px");
+        $("#score").css("text-align","center%");
+        $("#score").css("width","100%");
+        $("#line").css("width", "100%");
+        $("#line").css("height", "10px");
+        $("#line").css("background-color", "red");
+        $("#line").css("position", "absolute");
+        $("#line").css("top", "100%");
+        createEnemy();
+        fall();
+        
+    }
+    
+    var score=0;
+    
+    function createEnemy(){
+        console.log("enemy created");
+        $("#game").append("<div class='enemy'><img class='smiley' src='https://buildahead.com/wp-content/uploads/2017/02/happy-emoji-smaller-300x300.png'></div>");
+        $(".enemy").css("cursor","pointer");
+        $(".smiley").css("width", "25px");
+        $(".smiley").css("height", "25px");
+        var left = Math.floor(Math.random*$("#game").width());
+        $(".smiley").css("position", "absolute");
+        $(".smiley").css("left",left);
+        $(".enemy").css("left",left);
+    }
+    
+    
+    function click(){
+        
+       $(".enemy").click(function(){
+            console.log("click");
+            score++;
+            $(".enemy").css("top","0px");
+            $(".smiley").css("top","0px");
+            $("#score").html(score);
+            speed++;
+           createEnemy();
+           
+       }); 
+    }
+    
+    
+    function checkCollision($element) {
+    
+    var lineposition = $("#line").position().top;
+    var smileyPosition = $element.position().top + $element.height();
+    
+    if(lineposition < smileyPosition){
+        $("#game").html("<div id='set'>Click to try again</div>");
+        $("#game").append("<div id='highscore'> Highscore : "+score+"</div>");
+        $("#set").css("background-color","red");
+        $("#set").css("color","white");
+        $("#set").css("text-align","center");
+        $("#set").css("height","100%");
+        $("#set").css("width","100%");
+        $("#highscore").css("color","white");
+        $("#highscore").css("text-align","center");
+        $("#highscore").css("position","absolute");
+        $("#highscore").css("top","40%");
+        $("#highscore").css("width","100%");
+        
+        //$(".smiley").css("top", 0);
+    }
+ 
+    
+
+    }
+    function fall(){
+         var fall = setInterval(function(){
+        
+            
+            
+            //var smileyPosition = 0;
+            //console.log($(".smiley").position().top);
+            $(".smiley").each(function(index,element){
+                var $element = $(element);
+                $element.css("top", $element.position().top + speed);
+                checkCollision($element);
+            });
+            
+        },
+        50);
+        
+    }
+    
+    
+    function setGame(){
+        score = score -score;
+        clearInterval(fall);
+        speed = 1;
        console.log("hi");
        $("#minigame").html("<div style='height:300px, width:400px,' id='game'></div>");
        $("#game").css("width","400px");
@@ -118,58 +218,6 @@ $(document).ready(function(){
        $("#game").css("position","absolute");
        $("#game").css("left","35%");
        game();
-    });
-    
-    function game(){
-        createEnemy();
-        
-    }
-    
-    function createEnemy(){
-        console.log("enemy created");
-        $("#game").append("<div id='line'></div>");
-        $("#line").css("width", "100%");
-        $("#line").css("height", "10px");
-        $("#line").css("background-color", "red");
-        $("#line").css("position", "absolute");
-        $("#line").css("top", "100%");
-        $("#game").append("<div class='smiley'><img class='smiley' src='https://buildahead.com/wp-content/uploads/2017/02/happy-emoji-smaller-300x300.png'></div>");
-        $(".smiley").css("width", "25px");
-        $(".smiley").css("height", "25px");
-        $(".smiley").css("position", "absolute");
-    }
-    function CollisoinDetection ()
-    {
-        
-    }
-    function checkCollision() {
-    
-    var gameheight = 300;
-    var smileyPosition = $(".smiley").position().top;
-    
-    if(gameheight === smileyPosition){
-        $(".smiley").css("top", 0);
-    }
-    
-   
-    
-
-
-        
-      
-    }
-    function fall(){
-        setInterval(function(){
-        
-            console.log("1 second");
-            
-            //var smileyPosition = 0;
-            console.log($(".smiley").position().top);
-            $(".smiley").css("top", $(".smiley").position().top + 2);
-        
-        },
-        50);
-        
     }
  // function getRandomColor(){
    //   var letters = '0123456789ABCDEF';
